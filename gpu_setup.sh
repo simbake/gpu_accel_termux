@@ -109,35 +109,6 @@ INFO_NewLineAbove "Checking for requirements..."
 #	exit 1
 #fi
 
-GPU_REQ_FEATURES=$( vulkaninfo | grep -oE '(VK_KHR_maintenance1|VK_KHR_create_renderpass2|VK_KHR_imageless_framebuffer|VK_KHR_descriptor_update_template|VK_KHR_timeline_semaphore|VK_EXT_transform_feedback)' | wc -l )
-
-INFO_NLANoNextLine "Does GPU has feature VK_KHR_maintenance1, VK_KHR_create_renderpass2, VK_KHR_imageless_framebuffer, VK_KHR_descriptor_update_template, VK_KHR_timeline_semaphore, and VK_EXT_transform_feedback?"
-if [[ $GPU_REQ_FEATURES == 6 ]]; then
-	echo " yes"
-elif [[ $GPU_REQ_FEATURES == 5 ]]; then
-	echo ""
-	INFO_NewLineAbove "Wait for another script that installs the old supported version..."
-	exit 1
-else
-	echo " no"
-	
-	DIE "Double check using 'vulkaninfo | grep -oE '(VK_KHR_maintenance1|VK_KHR_create_renderpass2|VK_KHR_imageless_framebuffer|VK_KHR_descriptor_update_template|VK_KHR_timeline_semaphore|VK_EXT_transform_feedback)''"
-	exit 1
-fi
-
-GPU_DRIVER_VERSION=$( vulkaninfo | grep driverVersion | cut -d ' ' -f7 | tr -d '.' )
-
-#FIXME: Add Qualcomm/PowerVR Version compare logic
-INFO_NLANoNextLine "Is the GPU driver version greater than or equal to '38.1.0'? "
-if [ $GPU_DRIVER_VERSION -ge 3810 ]; then
-	echo " yes"
-	
-	INFO_NoNewLineAbove "If your GPU Model is made by Qualcomm or PowerVR then try to increase the '3810' in the script. (Line 111, near '-ge')"
-	DIE "GPU driver version >= 38.1.0 is unsupported!"
-else
-	echo " no"
-fi
-
 PATCHES_TAR_GZ="$MAIN_FOLDER/patches.tar.gz"
 PATCHES_TAR_GZ_SHA="340578182408ff50d9e23e104513892690325de29fc1ebf901d03e42f8c04ff5"
 
