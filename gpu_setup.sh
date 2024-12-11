@@ -340,7 +340,7 @@ CD_NO_ERR b
 if [ "$ENABLE_DRI3" = "yes" ]; then
 	LDFLAGS='-l:libandroid-shmem.a -llog' meson .. -Dprefix=$PREFIX -Dplatforms=x11 -Ddri3=true -Dgbm=enabled -Dgallium-drivers=zink,swrast -Dllvm=enabled -Dvulkan-drivers='' -Dcpp_rtti=false -Dc_args=-Wno-error=incompatible-function-pointer-types -Dbuildtype=release
 else
-	LDFLAGS='-l:libandroid-shmem.a -llog' meson .. -Dprefix=$PREFIX -Dplatforms=x11 -Dgbm=enabled -Dgallium-drivers=zink,swrast -Dllvm=enabled -Dvulkan-drivers='' -Dcpp_rtti=false -Dc_args=-Wno-error=incompatible-function-pointer-types -Dbuildtype=release
+	LDFLAGS='-l:libandroid-shmem.a -llog' meson .. -Dprefix=$PREFIX -Dplatforms=x11 -Dgbm=enabled -Dgallium-drivers=zink,swrast,virtio -Dllvm=enabled -Dvulkan-drivers='' -Dcpp_rtti=false -Dc_args=-Wno-error=incompatible-function-pointer-types -Dbuildtype=release
 fi
 
 # RM_SILENT $PREFIX/lib/libglapi*
@@ -389,7 +389,7 @@ git apply "$VIRGL_DIFF_FILE"
 MKDIR_NO_ERR b
 CD_NO_ERR b
 
-meson -Dbuildtype=release -Dprefix=$PREFIX -Dplatforms=egl ..
+meson -Dbuildtype=release -Dprefix=$PREFIX Dvenus=true -Dplatforms=egl ..
 
 RM_SILENT $PREFIX/lib/libvirglrenderer*
 
